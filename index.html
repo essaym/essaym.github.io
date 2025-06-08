@@ -654,7 +654,7 @@ TenantA-SecureMSP.msi<br><br>
                         <div class="our-solution">
                             <h4>With SecureMSPManager</h4>
                             <div class="our-cost">
-                                <span class="cost-label">Annual cost at $2.99/client:</span>
+                                <span class="cost-label">Annual cost at $<span id="our-price">2.99</span>/client:</span>
                                 <span class="our-cost-amount">$<span id="our-cost">3,588</span></span>
                             </div>
                             <div class="savings-highlight">
@@ -806,23 +806,28 @@ TenantA-SecureMSP.msi<br><br>
             const cost350 = document.getElementById('cost-350');
             const cost450 = document.getElementById('cost-450');
             const cost550 = document.getElementById('cost-550');
+            const ourPrice = document.getElementById('our-price');
             const ourCost = document.getElementById('our-cost');
             const maxSavings = document.getElementById('max-savings');
             
-            function updateCalculator() {
+                         function updateCalculator() {
                 const clients = parseInt(clientsInput.value) || 100;
                 
                 // Calculate costs
                 const cost3_50 = (clients * 3.50 * 12).toLocaleString();
                 const cost4_50 = (clients * 4.50 * 12).toLocaleString();
                 const cost5_50 = (clients * 5.50 * 12).toLocaleString();
-                const ourCostVal = (clients * 2.99 * 12).toLocaleString();
-                const maxSavingsVal = (clients * (5.50 - 2.99) * 12).toLocaleString();
+                
+                // Calculate our cost with tiered pricing
+                let ourPrice = clients <= 50 ? 2.99 : 2.49;
+                const ourCostVal = (clients * ourPrice * 12).toLocaleString();
+                const maxSavingsVal = (clients * (5.50 - ourPrice) * 12).toLocaleString();
                 
                 // Update DOM
                 cost350.textContent = cost3_50;
                 cost450.textContent = cost4_50;
                 cost550.textContent = cost5_50;
+                ourPrice.textContent = ourPrice.toFixed(2);
                 ourCost.textContent = ourCostVal;
                 maxSavings.textContent = maxSavingsVal;
             }
